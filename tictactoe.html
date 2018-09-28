@@ -65,12 +65,15 @@ ASSIGNMENT:
 	*/
 
 	// global game variables
-	var player, fields, fieldsPlayed, fieldsPlayer0, fieldsPlayer1, msg;
+	var player, fields, fieldsPlayed, fieldsPlayer1, fieldsPlayer2, msg;
 
   player = 1;
 
 // an array for all played fields
   fieldsPlayed = [];
+  // array for each player
+  fieldsPlayer1 = [];
+  fieldsPlayer2 = [];
 
   // make all fields clickable
   fields = document.getElementsByTagName('td');
@@ -78,6 +81,8 @@ ASSIGNMENT:
   for(let i = 0; i < fields.length; i++ ){
     fields[i].addEventListener('click', play);
   }
+
+  msg = document.getElementById('msg');
 
 	function play(){
 		// game core mechanics, marking the fields
@@ -88,12 +93,17 @@ ASSIGNMENT:
     if(player === 1 && !fieldsPlayed.includes(this.id)){
     this.innerHTML = 'X';
       this.style.color = 'blue';
+      fieldsPlayer1.push(parseInt(this.id));
+      console.log('player 1 played ' + fieldsPlayer1.toString());
     player = 2;
   } else if(player === 2 && !fieldsPlayed.includes(this.id)){
     this.innerHTML = 'O';
       this.style.color = 'red';
+      fieldsPlayer2.push(parseInt(this.id));
+      console.log('player 2 played ' + fieldsPlayer2.toString());
     player = 1;
     }
+    win();
 
   // store field in array
   fieldsPlayed.push(this.id);
@@ -102,7 +112,57 @@ ASSIGNMENT:
 
 	function win(){
 		// analyzing field choices, winning conditions, feedback
+    if( // player 1 winners
+        fieldsPlayer1.includes(1) && fieldsPlayer1.includes(2) &&
+        fieldsPlayer1.includes(3) ||
+        fieldsPlayer1.includes(4) && fieldsPlayer1.includes(5) &&
+        fieldsPlayer1.includes(6) ||
+        fieldsPlayer1.includes(7) && fieldsPlayer1.includes(8) &&
+        fieldsPlayer1.includes(9) ||
+        fieldsPlayer1.includes(1) && fieldsPlayer1.includes(4) &&
+        fieldsPlayer1.includes(7) ||
+        fieldsPlayer1.includes(2) && fieldsPlayer1.includes(5) &&
+        fieldsPlayer1.includes(8) ||
+        fieldsPlayer1.includes(3) && fieldsPlayer1.includes(6) &&
+        fieldsPlayer1.includes(9) ||
+        fieldsPlayer1.includes(1) && fieldsPlayer1.includes(5) &&
+        fieldsPlayer1.includes(9) ||
+        fieldsPlayer1.includes(3) && fieldsPlayer1.includes(5) &&
+        fieldsPlayer1.includes(7)
+
+    )
+    {
+        msg.innerHTML = 'Player 1 won!';
+    } else if( // player 2 winners
+          fieldsPlayer2.includes(1) && fieldsPlayer2.includes(2) &&
+          fieldsPlayer2.includes(3) ||
+          fieldsPlayer2.includes(4) && fieldsPlayer2.includes(5) &&
+          fieldsPlayer2.includes(6) ||
+          fieldsPlayer2.includes(7) && fieldsPlayer2.includes(8) &&
+          fieldsPlayer2.includes(9) ||
+          fieldsPlayer2.includes(1) && fieldsPlayer2.includes(4) &&
+          fieldsPlayer2.includes(7) ||
+          fieldsPlayer2.includes(2) && fieldsPlayer2.includes(5) &&
+          fieldsPlayer2.includes(8) ||
+          fieldsPlayer2.includes(3) && fieldsPlayer2.includes(6) &&
+          fieldsPlayer2.includes(9) ||
+          fieldsPlayer2.includes(1) && fieldsPlayer2.includes(5) &&
+          fieldsPlayer2.includes(9) ||
+          fieldsPlayer2.includes(3) && fieldsPlayer2.includes(5) &&
+          fieldsPlayer2.includes(7)
+      )
+      {
+          msg.innerHTML = 'Player 2 won!';
+      } else if (
+        // game is a draw
+
+      )
+      {
+        msg.innerHTML = 'Game is a draw!';
+      }
+
 	}
+
 	function gameOver(){
 		// ending the game
 
